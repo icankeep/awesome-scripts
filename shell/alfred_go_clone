@@ -1,0 +1,14 @@
+REPO_PREFIX=$(echo "{query}" | cut -d@ -f2 | cut -d/ -f1)
+REPO_NAME=$(echo "{query}" | cut -d/ -f2 | cut -d. -f1)
+DOMAIN=$(echo "$REPO_PREFIX" | cut -d: -f1)
+SUB_DOMAIN=$(echo "$REPO_PREFIX" | cut -d: -f2)
+
+CLONE_DIR=$GOPATH/src/$DOMAIN/$SUB_DOMAIN/$REPO_NAME
+if [ ! -d $CLONE_DIR ]; then
+	mkdir -p $CLONE_DIR
+	git clone {query} $CLONE_DIR
+fi
+
+cd $CLONE_DIR
+goland .
+exit
