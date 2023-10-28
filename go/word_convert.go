@@ -5,6 +5,11 @@ import (
 	"unicode"
 )
 
+// FirstLetterToUpper 单词全部转化为大写
+func FirstLetterToUpper(s string) string {
+	return strings.ToUpper(s[0:1]) + s[1:]
+}
+
 // ToUpper 单词全部转化为大写
 func ToUpper(s string) string {
 	return strings.ToUpper(s)
@@ -31,16 +36,18 @@ func UnderscoreToLowerCamelCase(s string) string {
 // CamelCaseToUnderscore 驼峰单词转下划线单词
 func CamelCaseToUnderscore(s string) string {
 	var output []rune
+	lastLetterIsLower := true
 	for i, r := range s {
 		if i == 0 {
 			output = append(output, unicode.ToLower(r))
 		} else {
-			if unicode.IsUpper(r) {
+			if lastLetterIsLower && unicode.IsUpper(r) {
 				output = append(output, '_')
 			}
 
 			output = append(output, unicode.ToLower(r))
 		}
+		lastLetterIsLower = unicode.IsLower(r)
 	}
 	return string(output)
 }
