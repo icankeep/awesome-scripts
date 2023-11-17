@@ -14,10 +14,10 @@ fi
 
 cd $CLONE_DIR
 
-if [ -f $GOLAND_MAC_BIN ]; then
-	$GOLAND_MAC_BIN "$CLONE_DIR"
-elif [ -f $GOLAND_GLOBAL_BIN ]; then
+if [ -f $GOLAND_GLOBAL_BIN ]; then
 	$GOLAND_GLOBAL_BIN "$CLONE_DIR"
+elif [ -f $GOLAND_MAC_BIN ]; then
+	$GOLAND_MAC_BIN "$CLONE_DIR"
 else 
 	open -na "GoLand.app" --args "$CLONE_DIR"
 fi
