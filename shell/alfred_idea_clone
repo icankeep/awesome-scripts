@@ -1,0 +1,28 @@
+export IDEA_MAC_BIN="/Applications/IntelliJ IDEA.app/Contents/MacOS/idea"
+export IDEA_GLOBAL_BIN=/usr/local/bin/idea
+
+REPO_NAME=$(echo "{query}" | cut -d/ -f2 | cut -d. -f1)
+BASE_DIR=${IDEA_CLONE_DIR:-~/IdeaProjects}
+CLONE_DIR=$BASE_DIR/$REPO_NAME
+
+mkdir -p $BASE_DIR
+cd $BASE_DIR
+if [ ! -d $CLONE_DIR ]; then
+	git clone {query} $CLONE_DIR
+fi
+
+if [ ! -d $CLONE_DIR ]; then
+	echo "Clone project err"
+	sleep 5
+	exit
+fi
+
+if [ -f $IDEA_GLOBAL_BIN ]; then
+	$IDEA_GLOBAL_BIN "$CLONE_DIR"
+elif [ -f $IDEA_MAC_BIN ]; then
+	$IDEA_MAC_BIN "$CLONE_DIR"
+else 
+	open -na "IntelliJ IDEA.app" --args "$CLONE_DIR"
+fi
+
+exit
