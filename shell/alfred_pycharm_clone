@@ -1,0 +1,30 @@
+export PYCHARM_MAC_BIN=/Applications/PyCharm.app/Contents/MacOS/pycharm
+export PYCHARM_GLOBAL_BIN=/usr/local/bin/pycharm
+
+REPO_NAME=$(echo "{query}" | cut -d/ -f2 | cut -d. -f1)
+BASE_DIR=${PYCHARM_CLONE_DIR:-~/PycharmProjects}
+CLONE_DIR=$BASE_DIR/$REPO_NAME
+
+mkdir -p $BASE_DIR
+cd $BASE_DIR
+
+
+if [ ! -d $CLONE_DIR ]; then
+	git clone {query} $CLONE_DIR
+fi
+
+if [ ! -d $CLONE_DIR ]; then
+	echo "Clone project err"
+	sleep 5
+	exit
+fi
+
+if [ -f $PYCHARM_GLOBAL_BIN ]; then
+	$PYCHARM_GLOBAL_BIN "$CLONE_DIR"
+elif [ -f $PYCHARM_MAC_BIN ]; then
+	$PYCHARM_MAC_BIN "$CLONE_DIR"
+else 
+	open -na "PyCharm.app" --args "$CLONE_DIR"
+fi
+
+exit
