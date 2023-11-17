@@ -1,3 +1,6 @@
+export GOLAND_MAC_BIN=/Applications/GoLand.app/Contents/MacOS/goland
+export GOLAND_GLOBAL_BIN=/usr/local/bin/goland
+
 REPO_PREFIX=$(echo "{query}" | cut -d@ -f2 | cut -d/ -f1)
 REPO_NAME=$(echo "{query}" | cut -d/ -f2 | cut -d. -f1)
 DOMAIN=$(echo "$REPO_PREFIX" | cut -d: -f1)
@@ -10,5 +13,13 @@ if [ ! -d $CLONE_DIR ]; then
 fi
 
 cd $CLONE_DIR
-goland .
+
+if [ -f $GOLAND_MAC_BIN ]; then
+	$GOLAND_MAC_BIN "$CLONE_DIR"
+elif [ -f $GOLAND_GLOBAL_BIN ]; then
+	$GOLAND_GLOBAL_BIN "$CLONE_DIR"
+else 
+	open -na "GoLand.app" --args "$CLONE_DIR"
+fi
+
 exit
